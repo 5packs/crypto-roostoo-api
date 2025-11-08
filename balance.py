@@ -45,10 +45,6 @@ def get_balance():
         # In a GET request, the payload is sent as 'params'
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
-        balance = response.json()
-        balance = balance.get('SpotWallet', {})
-        for coin in balance:
-            print(f"{coin} Free: {balance.get(coin, {}).get('Free')} Locked: {balance.get(coin, {}).get('Lock')}")
         return response.json()
     except requests.exceptions.RequestException as e:
         print(f"Error getting balance: {e}")
@@ -59,4 +55,7 @@ def get_balance():
 def test_get_balance():
     print("--- Getting Balance ---")
     balance = get_balance()
+    balance = balance.get('SpotWallet', {})
+    for coin in balance:
+        print(f"{coin} Free: {balance.get(coin, {}).get('Free')} Locked: {balance.get(coin, {}).get('Lock')}")
     # print(balance)
